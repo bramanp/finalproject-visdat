@@ -37,7 +37,7 @@ plot = figure(title='Visualisasi Data COVID-19 Indonesia (3/1/2020 - 12/3/2021)'
            x_axis_type='datetime' ,plot_height=600, plot_width=1200)
 
 # membuat graph
-plot.line(x='x', y='y', source=source, line_alpha=0.8, legend_label='location')
+plot.line(x='x', y='y', source=source, line_alpha=0.8, legend='location')
 
 # set legend
 plot.legend.location = 'bottom_left'
