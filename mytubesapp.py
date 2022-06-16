@@ -32,7 +32,7 @@ source = ColumnDataSource(data={
 })
 
 # membuat figure plot
-plot = figure(title='COVID-19 Indonesia (3/1/2020 - 12/3/2021)', x_axis_label='Date', y_axis_label='New Cases',
+plot = figure(title='Visualisasi Data COVID-19 Indonesia (3/1/2020 - 12/3/2021)', x_axis_label='Date', y_axis_label='New Cases',
            x_axis_type='datetime' ,plot_height=600, plot_width=1200)
 
 # membuat graph
