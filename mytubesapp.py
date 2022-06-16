@@ -81,5 +81,3 @@ y_kota_select.on_change('value', update_plot)
 
 layout = row(column(y_kota_select, y_select), plot)
 curdoc().add_root(layout)
-
-bokeh serve --show mytubesapp.py
