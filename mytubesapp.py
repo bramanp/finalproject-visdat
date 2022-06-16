@@ -6,7 +6,6 @@ from bokeh.io import curdoc
 from bokeh.plotting import figure, show
 from bokeh.models import HoverTool, ColumnDataSource, DateRangeSlider
 from bokeh.models import CategoricalColorMapper
-from bokeh.palettes import Spectral11, Turbo11, Set3_12
 from bokeh.layouts import widgetbox, row, gridplot, column
 from bokeh.models import Slider, Select
 
@@ -29,6 +28,7 @@ location_list = pd.unique(data['Location']).tolist()
 source = ColumnDataSource(data={
     'x' : data.index,
     'y' : data["New Cases"],
+    'location' : 'Indonesia'
 })
 
 # membuat figure plot
@@ -36,7 +36,10 @@ plot = figure(title='Visualisasi Data COVID-19 Indonesia (3/1/2020 - 12/3/2021)'
            x_axis_type='datetime' ,plot_height=600, plot_width=1200)
 
 # membuat graph
-plot.circle(x='x', y='y', source=source, fill_alpha=0.8)
+plot.line(x='x', y='y', source=source, line_alpha=0.8, legend='location')
+
+# set legend
+plot.legend.location = 'bottom_left'
 
 # fungsi update plot
 def update_plot(attr, old, new):
@@ -46,17 +49,12 @@ def update_plot(attr, old, new):
     plot.yaxis.axis_label = y
     
     # new data
-    if y_kota == "all":
-        new_data = {
-            'x'       : data.index,
-            'y'       : data[y],    
-        }
-    else:
-        data_kota = data.loc[(data["Location"] == y_kota)]
-        new_data = {
-            'x'       : data_kota.index,
-            'y'       : data_kota[y],    
-        }
+    new_data = {
+        'x'       : data.index,
+        'y'       : data[y],
+        'location': y_kota
+    }
+    
     source.data = new_data
 
 # dropdown untuk y axis
@@ -70,7 +68,6 @@ y_select = Select(
 y_select.on_change('value', update_plot)
 
 # pilih kota
-location_list.insert(0, "all")
 y_kota_select = Select(
     options= location_list,
     value='all',
