@@ -25,10 +25,11 @@ data.head()
 location_list = pd.unique(data['Location']).tolist()
 
 # membuat ColumnDataSource
+kota_awal = data.loc[(data["Location"] == "Indonesia")]
 source = ColumnDataSource(data={
-    'x' : data.index,
-    'y' : data["New Cases"],
-    'location' : 'Indonesia'
+    'x' : kota_awal.index,
+    'y' : kota_awal["New Cases"],
+    'location' : kota_awal["Location"]
 })
 
 # membuat figure plot
@@ -36,7 +37,7 @@ plot = figure(title='Visualisasi Data COVID-19 Indonesia (3/1/2020 - 12/3/2021)'
            x_axis_type='datetime' ,plot_height=600, plot_width=1200)
 
 # membuat graph
-plot.line(x='x', y='y', source=source, line_alpha=0.8, legend='location')
+plot.line(x='x', y='y', source=source, line_alpha=0.8, legend_label='location')
 
 # set legend
 plot.legend.location = 'bottom_left'
@@ -49,10 +50,11 @@ def update_plot(attr, old, new):
     plot.yaxis.axis_label = y
     
     # new data
+    data_kota = data.loc[(data["Location"] == y_kota)]
     new_data = {
-        'x'       : data.index,
-        'y'       : data[y],
-        'location': y_kota
+        'x'       : data_kota.index,
+        'y'       : data_kota[y],
+        'location': data_kota["Location"]
     }
     
     source.data = new_data
@@ -70,7 +72,7 @@ y_select.on_change('value', update_plot)
 # pilih kota
 y_kota_select = Select(
     options= location_list,
-    value='all',
+    value='Indonesia',
     title='Kota list'
 )
 
